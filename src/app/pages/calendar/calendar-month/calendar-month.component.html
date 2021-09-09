@@ -1,0 +1,8 @@
+<div class="grid grid-cols-7 gap-2">
+  <ng-container *ngFor="let week of weeks">
+    <div>{{ week }}</div>
+  </ng-container>
+  <ng-container *ngFor="let dateTime of dateTimes">
+    <app-calendar-month-cell [dateTime]="dateTime"></app-calendar-month-cell>
+  </ng-container>
+</div>
