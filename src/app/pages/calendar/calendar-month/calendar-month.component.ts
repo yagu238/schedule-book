@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DateTime } from 'luxon';
 
 @Component({
@@ -7,15 +7,25 @@ import { DateTime } from 'luxon';
   styleUrls: ['./calendar-month.component.scss'],
 })
 export class CalendarMonthComponent implements OnInit {
-  weeks: string[] = ['日', '月', '火', '水', '木', '金', '土'];
+  private _dateTime!: DateTime;
+
+  @Input()
+  set dateTime(value: DateTime) {
+    this._dateTime = value;
+
+    const startOfMonth = this.dateTime.startOf('month');
+    this.dateTimes = this.getCalendarDaysForMonth(startOfMonth);
+  }
+  get dateTime() {
+    return this._dateTime;
+  }
+
+  readonly weeks: string[] = ['日', '月', '火', '水', '木', '金', '土'];
   dateTimes: DateTime[] = [];
 
   constructor() {}
 
-  ngOnInit(): void {
-    let startOfMonth = DateTime.now().startOf('month');
-    this.dateTimes = this.getCalendarDaysForMonth(startOfMonth);
-  }
+  ngOnInit(): void {}
 
   /**
    * 月のカレンダーを取得する
