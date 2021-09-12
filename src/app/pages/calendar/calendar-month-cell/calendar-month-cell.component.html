@@ -1,3 +1,37 @@
-<div>
-  {{ dateTime.day }}
+<div class="flex justify-between">
+  <span class="flex items-center justify-center w-10 h-10">
+    {{ dateTime.day }}
+  </span>
+
+  <button
+    class="
+      inline-flex
+      items-center
+      justify-center
+      w-10
+      h-10
+      text-black
+      transition-colors
+      duration-150
+      bg-transparent
+      rounded-full
+      focus:shadow-outline
+      hover:bg-gray-300
+    "
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+      />
+    </svg>
+  </button>
 </div>
