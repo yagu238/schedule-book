@@ -74,4 +74,6 @@
   </div>
 </nav>
 
-<app-calendar [dateTime]="dateTime"></app-calendar>
+<ng-container *ngIf="events">
+  <app-calendar [dateTime]="dateTime" [events]="events"></app-calendar>
+</ng-container>

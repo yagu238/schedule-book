@@ -1,6 +1,6 @@
 <div class="grid grid-cols-7 border-t-2 border-l-2 border-r-2">
   <ng-container
-    *ngFor="let week of weeks; let isLast = last; let isFirst = first"
+    *ngFor="let head of headers; let isLast = last; let isFirst = first"
   >
     <div
       class="text-center border-b-2"
@@ -10,17 +10,18 @@
         'bg-red-100': isFirst
       }"
     >
-      {{ week }}
+      {{ head }}
     </div>
   </ng-container>
-  <ng-container *ngFor="let dt of dateTimes">
+  <ng-container *ngFor="let day of days">
     <app-calendar-month-cell
-      class="border-b-2 h-32 min-h-full"
+      class="border-b-2 min-h-32"
       [ngClass]="{
-        'border-r-2': dt.weekday !== 6,
-        'bg-gray-100': dt.month !== dateTime.month
+        'border-r-2': day.dateTime.weekday !== 6,
+        'bg-gray-100': day.dateTime.month !== calendarMonth.dateTime.month
       }"
-      [dateTime]="dt"
+      [dateTime]="day.dateTime"
+      [events]="day.events"
     ></app-calendar-month-cell>
   </ng-container>
 </div>

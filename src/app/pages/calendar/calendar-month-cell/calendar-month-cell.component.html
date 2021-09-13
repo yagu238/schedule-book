@@ -35,3 +35,12 @@
     </svg>
   </button>
 </div>
+
+<div>
+  <ng-container *ngFor="let event of events">
+    <div>
+      {{ event.start.toFormat("HH:mm") }}
+      {{ event.title }}
+    </div>
+  </ng-container>
+</div>

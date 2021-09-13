@@ -1,3 +1,7 @@
 <div class="p-2">
-  <app-calendar-month [dateTime]="dateTime"></app-calendar-month>
+  <ng-container *ngIf="dateTime && events">
+    <app-calendar-month
+      [calendarMonth]="{ dateTime: dateTime, events: events }"
+    ></app-calendar-month>
+  </ng-container>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DateTime } from 'luxon';
+import { TestEventData } from './event-data';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +9,7 @@ import { DateTime } from 'luxon';
 })
 export class DashboardComponent implements OnInit {
   dateTime = DateTime.now().startOf('month');
+  events = TestEventData;
 
   constructor() {}
 

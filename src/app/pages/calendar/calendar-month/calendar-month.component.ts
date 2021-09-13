@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DateTime } from 'luxon';
+import { CalendarEvent } from 'src/app/models/calendar-event';
+import { CalendarMonth } from 'src/app/models/calendar-month';
+import { CalendarMonthDay } from 'src/app/models/calendar-month-day';
 
 @Component({
   selector: 'app-calendar-month',
@@ -7,21 +10,22 @@ import { DateTime } from 'luxon';
   styleUrls: ['./calendar-month.component.scss'],
 })
 export class CalendarMonthComponent implements OnInit {
-  private _dateTime!: DateTime;
+  readonly headers: string[] = ['日', '月', '火', '水', '木', '金', '土'];
+  days: CalendarMonthDay[] = [];
+
+  private _calendarMonth!: CalendarMonth;
 
   @Input()
-  set dateTime(value: DateTime) {
-    this._dateTime = value;
-
-    const startOfMonth = this.dateTime.startOf('month');
-    this.dateTimes = this.getCalendarDaysForMonth(startOfMonth);
+  set calendarMonth(value: CalendarMonth) {
+    this._calendarMonth = value;
+    this.days = this.getCalendarDaysForMonth(
+      this._calendarMonth.dateTime.startOf('month'),
+      this._calendarMonth.events
+    );
   }
-  get dateTime() {
-    return this._dateTime;
+  get calendarMonth() {
+    return this._calendarMonth;
   }
-
-  readonly weeks: string[] = ['日', '月', '火', '水', '木', '金', '土'];
-  dateTimes: DateTime[] = [];
 
   constructor() {}
 
@@ -30,9 +34,13 @@ export class CalendarMonthComponent implements OnInit {
   /**
    * 月のカレンダーを取得する
    * @param startOfMonth 月初日
+   * @param events 全てのイベント
    */
-  private getCalendarDaysForMonth(startOfMonth: DateTime) {
-    let dateTimes: DateTime[] = [];
+  private getCalendarDaysForMonth(
+    startOfMonth: DateTime,
+    events: CalendarEvent[]
+  ) {
+    let days: CalendarMonthDay[] = [];
 
     // 月末日取得
     const endOfMonth = startOfMonth.endOf('month');
@@ -58,11 +66,29 @@ export class CalendarMonthComponent implements OnInit {
 
     // カレンダーの日付を追加していく
     while (true) {
-      dateTimes.push(startOfCalendar);
+      const dailyEvents = events.filter((e) =>
+        this.equalsDateTimeYMD(e.start, startOfCalendar)
+      );
+      days.push({
+        dateTime: startOfCalendar,
+        events: dailyEvents,
+      });
       startOfCalendar = startOfCalendar.plus({ days: 1 });
       if (startOfCalendar > endOfCalendar) break;
     }
 
-    return dateTimes;
+    return days;
+  }
+
+  /**
+   * 年月日が一致するかどうか
+   * @param dt1
+   * @param dt2
+   * @returns
+   */
+  private equalsDateTimeYMD(dt1: DateTime, dt2: DateTime) {
+    return (
+      dt1.year === dt2.year && dt1.month === dt2.month && dt1.day === dt2.day
+    );
   }
 }
